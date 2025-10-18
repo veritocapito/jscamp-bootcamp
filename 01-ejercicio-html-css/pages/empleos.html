@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Jobs</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Find your next job in tech with DevJobs. Browse thousands of job listings from top companies and startups."
+    />
+    <link rel="icon" type="image/x-icon" href="../img/logo.svg" />
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="../script.js" type="module"></script>
+  </head>
+
+  <body class="jobs-page">
+    <header>
+      <nav>
+        <div class="logo">
+          <img
+            src="../img/logo.svg"
+            alt="DevJobs Logo"
+            width="24"
+            height="24"
+          />
+          <h2>DevJobs</h2>
+        </div>
+
+        <div class="nav-links">
+          <a href="../index.html">Home</a>
+          <a href="#">Jobs</a>
+          <a href="#">Companies</a>
+          <a href="#">Salaries</a>
+        </div>
+
+        <div class="user-actions">
+          <a href="#">Upload CV</a>
+          <a href="#" class="user-icon"
+            ><img src="../img/user-icon.svg" alt="User Icon"
+          /></a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <section>
+        <h1>Find Your Next Tech Job</h1>
+        <p>
+          Explore thousands of job listings from top companies and startups.
+        </p>
+        <form role="search">
+          <div class="search-bar">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="icon icon-tabler icons-tabler-outline icon-tabler-search"
+            >
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+              <path d="M21 21l-6 -6" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search for jobs by title, skill or location"
+              aria-label="Search for jobs"
+            />
+          </div>
+          <div class="filters">
+            <select name="technology" id="technology">
+              <option value="" disabled selected>Technology</option>
+              <option value="frontend">Frontend</option>
+              <option value="backend">Backend</option>
+              <option value="fullstack">Fullstack</option>
+              <option value="devops">DevOps</option>
+            </select>
+            <select name="location" id="location">
+              <option value="" disabled selected>Location</option>
+              <option value="la">Latin America</option>
+              <option value="eu">Europe</option>
+              <option value="us">United States</option>
+              <option value="remote">Remote</option>
+            </select>
+            <select name="job-type" id="job-type">
+              <option value="" disabled selected>Job Type</option>
+              <option value="full-time">Full Time</option>
+              <option value="part-time">Part Time</option>
+              <option value="contract">Contract</option>
+              <option value="freelance">Freelance</option>
+            </select>
+            <select name="experience-level" id="experience-level">
+              <option value="" disabled selected>Experience Level</option>
+              <option value="trainee">Trainee</option>
+              <option value="junior">Junior</option>
+              <option value="mid">Mid</option>
+              <option value="senior">Senior</option>
+            </select>
+          </div>
+        </form>
+      </section>
+      <section class="jobs-listings">
+        <h2>Search Results</h2>
+        <div>
+          <article>
+            <div>
+              <h3>Frontend Developer</h3>
+              <small>Company A | Remote</small>
+              <p>
+                We are looking for a skilled Frontend Developer to join our
+                team. Candidates should have experience with React and a passion
+                for building user-friendly interfaces. In this role, you will
+                collaborate closely with our UI/UX design team to translate
+                wireframes into high-quality, reusable code. You will be
+                responsible for ensuring our application is optimized for
+                maximum speed and scalability across a wide range of web-capable
+                devices and browsers.
+              </p>
+            </div>
+            <button class="apply-btn">Apply Now</button>
+          </article>
+          <article>
+            <div>
+              <h3>Backend Developer</h3>
+              <small>Company B | Remote</small>
+              <p>
+                We are looking for a skilled Backend Developer to join our team.
+                Candidates should have experience with Node.js and a strong
+                understanding of RESTful APIs. Your primary focus will be the
+                development of all server-side logic, definition and maintenance
+                of the central database, and ensuring high performance and
+                responsiveness to requests from the front-end. You will also be
+                responsible for implementing security and data protection
+                measures.
+              </p>
+            </div>
+            <button class="apply-btn">Apply Now</button>
+          </article>
+          <article>
+            <div>
+              <h3>Fullstack Developer</h3>
+              <small>Company C | Remote</small>
+              <p>
+                We are looking for a skilled Fullstack Developer to join our
+                team. Candidates should have experience with both frontend and
+                backend technologies, including React and Node.js. You will take
+                full ownership of new features, from initial concept and
+                technical design to deployment and maintenance. The ideal
+                candidate is a proactive problem solver who is comfortable
+                working across the entire stack and is committed to writing
+                clean, effective, and maintainable code.
+              </p>
+            </div>
+            <button class="apply-btn">Apply Now</button>
+          </article>
+          <article>
+            <div>
+              <h3>DevOps Engineer</h3>
+              <small>Company D | Remote</small>
+              <p>
+                We are looking for a skilled DevOps Engineer to join our team.
+                Candidates should have experience with cloud platforms and CI/CD
+                pipelines. You will be responsible for automating our
+                operational processes as well as building and maintaining our
+                infrastructure as code. A key part of your role will be to
+                monitor system health, identify performance bottlenecks, and
+                ensure our services remain reliable and scalable.
+              </p>
+            </div>
+            <button class="apply-btn">Apply Now</button>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <nav>
+        <a class="" href="#">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left-pipe"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M7 6v12" />
+            <path d="M18 6l-6 6l6 6" />
+          </svg>
+        </a>
+        <a class="" href="#">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-left"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M15 6l-6 6l6 6" />
+          </svg>
+        </a>
+        <a class="active" href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right-pipe"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M6 6l6 6l-6 6" />
+            <path d="M17 5v13" />
+          </svg>
+        </a>
+        <a href="#">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 6l6 6l-6 6" />
+          </svg>
+        </a>
+      </nav>
+      <small
+        >2025 &copy; DevJobs by
+        <a href="https://twitter.com/VeroCapo_Dev" target="_blank"
+          >@VeroCapo_Dev</a
+        ></small
+      >
+    </footer>
+  </body>
+</html>

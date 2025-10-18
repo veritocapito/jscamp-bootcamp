@@ -1,1 +1,113 @@
-<!-- Aquí el contenido de tu página index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>DevJobs - Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description"
+            content="Find your next job in tech with DevJobs. Browse thousands of job listings from top companies and startups.">
+        <link rel="icon" type="image/x-icon" sizes="32x32" href="./img/logo.svg">
+        <link rel="stylesheet" href="./styles.css">
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="./img/logo.svg" alt="DevJobs Logo" width="24" height="24">
+                    <h2>DevJobs</h2>
+                </div>
+                <div class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="./pages/empleos.html">Jobs</a>
+                    <a href="#">Companies</a>
+                    <a href="#">Salaries</a>
+                </div>
+                <div class="user-actions">
+                    <a href="#">Post a job</a>
+                    <a href="#">Log in</a>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <section>
+                <img src="./img/background.webp" width="200" />
+                <h1>Find Your Next Tech Job</h1>
+                <p>Whether you're a developer, designer, or product manager, DevJobs has something for you.</p>
+                <form role="search">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                            <path d="M21 21l-6 -6" />
+                        </svg>
+                        <input type="text" placeholder="Search for jobs by title, skill or location"
+                            aria-label="Search for jobs">
+                        <button type="submit">Search</button>
+                    </div>
+                </form>
+            </section>
+
+            <section>
+                <header class="features-header">
+                    <h2>Why DevJobs?</h2>
+                    <p class="section-text">DevJobs is your go-to platform for finding the best tech jobs. We connect
+                        job seekers with top
+                        companies and startups, making the job search process easier and more efficient.</p>
+                </header>
+                <footer>
+                    <article class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-briefcase">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M3 7m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+                            <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
+                            <path d="M12 12l0 .01" />
+                            <path d="M3 13a20 20 0 0 0 18 0" />
+                        </svg>
+                        <h3>For Job Seekers</h3>
+                        <p>Find your dream job with our advanced search options and personalized job recommendations.
+                        </p>
+                    </article>
+                    <article class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
+                        </svg>
+                        <h3>For Employers</h3>
+                        <p>Post your job openings and connect with qualified candidates in the tech industry.</p>
+                    </article>
+                    <article class="feature-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-building-skyscraper">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M3 21l18 0" />
+                            <path d="M5 21v-14l8 -4v18" />
+                            <path d="M19 21v-10l-6 -4" />
+                            <path d="M9 9l0 .01" />
+                            <path d="M9 12l0 .01" />
+                            <path d="M9 15l0 .01" />
+                            <path d="M9 18l0 .01" />
+                        </svg>
+                        <h3>For Recruiters</h3>
+                        <p>Access our database of top talent and streamline your recruitment process.</p>
+                    </article>
+                </footer>
+            </section>
+        </main>
+        <footer>
+            <small>2025 &copy; DevJobs by <a href="https://twitter.com/VeroCapo_Dev" target="_blank">@VeroCapo_Dev</a></small>
+        </footer>
+    </body>
+
+</html>
