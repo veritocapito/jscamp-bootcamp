@@ -71,36 +71,38 @@ header {
 }
 
 /* Navigation */
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    max-width: 1280px;
-    margin: 0 auto;
-    gap: 2rem;
-
-
-    a {
-        text-decoration: none;
-        color: var(--text-secondary);
-        transition: color 0.2s;
-        font-weight: 500;
-    }
-
-    .logo {
+header {
+    >div {
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        justify-content: flex-start;
-        gap: 0.5rem;
-        font-family: monospace, sans-serif;
-    }
+        flex-wrap: wrap;
+        max-width: 1280px;
+        margin: 0 auto;
+        gap: 2rem;
 
-    .nav-links {
-        flex-grow: 1;
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
+
+        a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            transition: color 0.2s;
+            font-weight: 500;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 0.5rem;
+            font-family: monospace, sans-serif;
+        }
+
+        .nav-links {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
     }
 
     .user-actions {
@@ -126,6 +128,12 @@ nav {
 
         .user-icon {
             border-radius: 50%;
+            /* Con esto hacemos que el avatar sea redondo */
+            height: 40px;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
     }
@@ -391,25 +399,25 @@ footer {
 
 /* Filters */
 .filters {
-  border: none;
-  margin: 0;
-  padding: 0.5rem 1rem;
-  display: flex;
-  gap: 0.5rem;
-  background: unset;
-  flex-wrap: wrap;
+    border: none;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    display: flex;
+    gap: 0.5rem;
+    background: unset;
+    flex-wrap: wrap;
 
-  select {
-    background-color: var(--input-bg);
-    border: 1px solid var(--border);
-    outline: none;
-    color: var(--text-primary);
-    font-size: 1rem;
-    font-family: inherit;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    cursor: pointer;
-  }
+    select {
+        background-color: var(--input-bg);
+        border: 1px solid var(--border);
+        outline: none;
+        color: var(--text-primary);
+        font-size: 1rem;
+        font-family: inherit;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
 }
 
 .filters select {
@@ -438,12 +446,13 @@ footer {
 }
 
 /* Job Listings*/
-.jobs-listings>div {
+.jobs-listings>ul {
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 1rem;
     background: none;
+    list-style: none;
 
-    article {
+    li>article {
         background: none;
         border-radius: 0;
         box-shadow: none;
@@ -462,10 +471,10 @@ footer {
         p {
             margin-top: 0.5rem;
         }
+    }
 
-        &:last-child {
-            border-bottom: none;
-        }
+    &:last-child>article {
+        border-bottom: none;
     }
 }
 
@@ -497,7 +506,7 @@ footer {
 }
 
 /*  Pagination  */
-.jobs-page footer nav {
+.pagination {
     display: flex;
     justify-content: center;
     align-items: center;
