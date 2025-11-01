@@ -82,6 +82,11 @@ header {
         gap: 2rem;
 
 
+        @media (max-width: 600px) {
+            flex-direction: column;
+            align-items: center;
+        }
+
         a {
             text-decoration: none;
             color: var(--text-secondary);
@@ -193,6 +198,10 @@ form {
     padding: 0.5rem;
     background: var(--input-bg);
     border-radius: 0.5rem;
+    
+    @media (max-width: 600px)   {
+        width: 90vw;
+    }
 }
 
 form>div {
@@ -260,12 +269,13 @@ form button[type="submit"]:focus {
 /* Features Section */
 main>section:nth-child(2) {
     padding-inline: 1rem;
-    background-color: var(--background);
     padding-top: 1rem;
 
     &>header {
         gap: 16px;
         flex-direction: column;
+        background-color: transparent;
+        box-shadow: none;
 
         h2 {
             margin-bottom: 0;
@@ -291,17 +301,19 @@ main>section:nth-child(2)>div>div:first-child>p {
 }
 
 
-/* Features Grid */
+/* Features */
 .features-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+    z-index: -1;
 }
 
 main>section:nth-child(2) footer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: 16px;
     padding: 1.5rem 2rem;
     max-width: 1280px;
@@ -318,6 +330,7 @@ main>section:nth-child(2) footer {
 /* Feature Cards */
 article {
     background-color: var(--card-bg);
+    max-width: 300px;
     padding: 2rem;
     margin-bottom: 16px;
     border-radius: 0.5rem;
@@ -457,6 +470,7 @@ footer {
         background: none;
         border-radius: 0;
         box-shadow: none;
+        max-width: none;
         margin: 0;
         border-bottom: 1px solid var(--border);
 
