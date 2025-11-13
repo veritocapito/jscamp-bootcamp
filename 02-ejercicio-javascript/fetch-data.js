@@ -6,6 +6,8 @@ fetch('./data.json')
   .then(jobs => {
     console.log(jobs);
     // Render job listings
+    const fragment = document.createDocumentFragment()
+
     jobs.forEach(job => {
       const article = document.createElement('article');
       article.className = 'job-listing-card';
@@ -22,8 +24,9 @@ fetch('./data.json')
         </div>
         <button class="button-apply-job">Aplicar</button>
       `;
-      container.appendChild(article);
+      fragment.appendChild(article)
     });
+    container.appendChild(fragment);
   })
   .catch(error => {
     console.error('Error fetching job data:', error);
