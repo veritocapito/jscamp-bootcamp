@@ -9,3 +9,4 @@ En este repositorio podrás ir entregando los ejercicios del bootcamp
 | # | Ejercicio | Descripción | Código |
 | - | --------- | ----------- | ------ |
 | 1 | **html-css** | Desarrolla la página de `empleos.html` | [![GitHub Badge](https://img.shields.io/badge/estado-entregado-green)](/01-ejercicio-html-css/tree/main/README.md) |
+| 2 | **javascript** | Agrega funcionalidad al filtro de `empleos.html` | [![GitHub Badge](https://img.shields.io/badge/estado-entregado-green)](/02-ejercicio-javascript/README.md) |
