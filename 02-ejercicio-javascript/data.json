@@ -67,7 +67,7 @@
     "descripcion": "Se busca un administrador de bases de datos con experiencia en PostgreSQL y MySQL. El candidato deberá asegurar la disponibilidad, seguridad y rendimiento de las bases de datos de producción.",
     "data": {
       "technology": ["python", "java"],
-      "modalidad": "remoto",
+      "modalidad": "Buenos Aires",
       "nivel": "senior"
     }
   },
@@ -91,7 +91,7 @@
     "descripcion": "Estamos buscando un Product Manager con experiencia en la definición y lanzamiento de productos digitales. Se requiere capacidad analítica, liderazgo y conocimiento en metodologías ágiles.",
     "data": {
       "technology": ["javascript", "react"],
-      "modalidad": "remoto",
+      "modalidad": "madrid",
       "nivel": "lead"
     }
   },
@@ -103,7 +103,7 @@
     "descripcion": "Buscamos un desarrollador frontend con experiencia en React, TypeScript y Tailwind CSS. Se valorará conocimiento en optimización de rendimiento y accesibilidad web.",
     "data": {
       "technology": ["react", "javascript"],
-      "modalidad": "monterrey",
+      "modalidad": "remoto",
       "nivel": "mid"
     }
   },
@@ -115,7 +115,7 @@
     "descripcion": "Estamos buscando un desarrollador backend con experiencia en Node.js, Express y bases de datos NoSQL. Se requiere conocimiento en arquitectura de microservicios.",
     "data": {
       "technology": ["nodejs", "javascript"],
-      "modalidad": "cdmx",
+      "modalidad": "bogota",
       "nivel": "mid"
     }
   },
@@ -139,7 +139,7 @@
     "descripcion": "Se busca ingeniero de QA con experiencia en automatización de pruebas utilizando herramientas como Selenium, Cypress o Playwright. Conocimiento deseado en CI/CD.",
     "data": {
       "technology": ["javascript", "nodejs"],
-      "modalidad": "guadalajara",
+      "modalidad": "remoto",
       "nivel": "mid"
     }
   },
@@ -151,7 +151,7 @@
     "descripcion": "Buscamos un administrador de sistemas con experiencia en Linux, Docker y monitoreo de servidores. Conocimiento en scripting Bash o Python será un plus.",
     "data": {
       "technology": ["python", "ruby"],
-      "modalidad": "barcelona",
+      "modalidad": "remoto",
       "nivel": "mid"
     }
   },
@@ -163,7 +163,7 @@
     "descripcion": "Estamos buscando un Scrum Master con experiencia en metodologías ágiles y gestión de equipos multidisciplinarios. Certificación Scrum Master deseable.",
     "data": {
       "technology": ["javascript"],
-      "modalidad": "remoto",
+      "modalidad": "madrid",
       "nivel": "senior"
     }
   },

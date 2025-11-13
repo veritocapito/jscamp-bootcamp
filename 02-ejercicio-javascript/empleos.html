@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <title>DevJobs - Empleos</title>
@@ -37,7 +37,12 @@
       </nav>
 
       <a href="#" aria-label="Ir a mi perfil" title="Mi perfil">
-        <img src="https://unavatar.io/github/mdo" alt="Avatar del usuario" width="32" height="32" />
+        <img
+          src="https://unavatar.io/github/mdo"
+          alt="Avatar del usuario"
+          width="32"
+          height="32"
+        />
       </a>
     </header>
 
@@ -99,6 +104,8 @@
               <option value="guadalajara">Guadalajara</option>
               <option value="monterrey">Monterrey</option>
               <option value="barcelona">Barcelona</option>
+              <option value="madrid">Madrid</option>
+              <option value="Buenos Aires">Buenos Aires</option>
             </select>
 
             <select name="experience-level" id="filter-experience-level">
@@ -118,57 +125,56 @@
         <ul class="jobs-listings">
           <!-- Aquí se insertan los empleos dinámicamente -->
         </ul>
-
-        <nav class="pagination">
-          <a
-            href="#"
-            aria-label="Ir a la página anterior de los resultados de búsqueda"
-            title="Página anterior"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M15 6l-6 6l6 6" />
-            </svg>
-          </a>
-          <a class="is-active" href="#">1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">4</a>
-          <a href="#">5</a>
-          <a
-            href="#"
-            aria-label="Ir a la página siguiente de los resultados de búsqueda"
-            title="Página siguiente"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 6l6 6l-6 6" />
-            </svg>
-          </a>
-        </nav>
       </section>
     </main>
 
     <footer>
+      <nav class="pagination">
+        <a
+          href="#"
+          aria-label="Ir a la página anterior de los resultados de búsqueda"
+          title="Página anterior"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M15 6l-6 6l6 6" />
+          </svg>
+        </a>
+        <a class="is-active" href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a
+          href="#"
+          aria-label="Ir a la página siguiente de los resultados de búsqueda"
+          title="Página siguiente"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-right"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M9 6l6 6l-6 6" />
+          </svg>
+        </a>
+      </nav>
       <small>&copy; 2025 DevJobs. Todos los derechos reservados.</small>
     </footer>
   </body>

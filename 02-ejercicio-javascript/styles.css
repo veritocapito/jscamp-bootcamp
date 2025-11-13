@@ -25,8 +25,7 @@
   font-style: normal;
   font-display: swap;
   font-weight: 100 900;
-  src: url(https://cdn.jsdelivr.net/fontsource/fonts/inter:vf@latest/latin-wght-normal.woff2)
-    format('woff2-variations');
+  src: url(https://cdn.jsdelivr.net/fontsource/fonts/inter:vf@latest/latin-wght-normal.woff2) format('woff2-variations');
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
     U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
@@ -84,7 +83,7 @@ h1 {
   }
 }
 
-h1 + p {
+h1+p {
   text-wrap: balance;
   margin-bottom: 2rem;
 }
@@ -153,7 +152,7 @@ header div a {
 }
 
 /* Hero */
-main > section:nth-child(1) {
+main>section:nth-child(1) {
   height: 500px;
   text-align: center;
   display: flex;
@@ -165,7 +164,7 @@ main > section:nth-child(1) {
     padding-top: 36px;
   }
 
-  & > img {
+  &>img {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -177,6 +176,10 @@ main > section:nth-child(1) {
   }
 }
 
+main{
+    flex: 1;
+}
+
 /* Formulario de Búsqueda */
 form {
   max-width: 42rem;
@@ -185,7 +188,7 @@ form {
   padding-inline: 1rem;
 }
 
-form > div {
+form>div {
   display: flex;
   align-items: center;
   background-color: var(--input-bg);
@@ -231,7 +234,8 @@ button {
   font-size: 1rem;
   white-space: nowrap;
 
-  &:hover, /* pseudo-clase que significa que el ratón está encima */
+  &:hover,
+  /* pseudo-clase que significa que el ratón está encima */
   &:focus {
     /* pseudo-clase que significa que el elemento tiene el foco */
     background-color: var(--primary-hover);
@@ -250,12 +254,12 @@ button {
 }
 
 /* Features Section */
-main > section:nth-child(2) {
+main>section:nth-child(2) {
   padding-inline: 1rem;
   background-color: var(--background);
   padding-top: 2rem;
 
-  & > header {
+  &>header {
     gap: 2px;
     flex-direction: column;
 
@@ -268,20 +272,20 @@ main > section:nth-child(2) {
     }
   }
 
-  & > div {
+  &>div {
     max-width: 1280px;
     margin: 0 auto;
   }
 }
 
-main > section:nth-child(2) h2 {
+main>section:nth-child(2) h2 {
   font-size: 1.875rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
-main > section:nth-child(2) > div > div:first-child > p {
+main>section:nth-child(2)>div>div:first-child>p {
   font-size: 1.125rem;
   color: var(--text-muted);
   max-width: 42rem;
@@ -289,7 +293,7 @@ main > section:nth-child(2) > div > div:first-child > p {
 }
 
 /* Grid de Features */
-main > section:nth-child(2) footer {
+main>section:nth-child(2) footer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 16px;
@@ -408,6 +412,7 @@ article {
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 1rem;
   list-style: none;
+  margin-bottom: 1rem;
 
   .job-listing-card {
     background: none;
@@ -416,7 +421,8 @@ article {
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     margin: 0;
 
-    display: flex; /* valor original */
+    display: flex;
+    /* valor original */
     align-items: start;
     justify-content: space-between;
     gap: 1rem;
@@ -433,6 +439,7 @@ article {
     p {
       margin-top: 0.5rem;
     }
+
   }
 
   li:last-child .job-listing-card {
