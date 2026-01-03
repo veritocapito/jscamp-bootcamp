@@ -1,4 +1,17 @@
-export function HomePage() {
+const Home = () => {
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const searchQuery = formData.get("search");
+
+    const url = searchQuery
+      ? `/search?query=${encodeURIComponent(searchQuery)}`
+      : "/search";
+
+    window.history.pushState({}, "", url);
+    window.dispatchEvent(new PopStateEvent("popstate"));
+  };
+
   return (
     <main>
       <section>
@@ -10,7 +23,7 @@ export function HomePage() {
           Únete a la comunidad más grande de desarrolladores y encuentra tu próxima oportunidad.
         </p>
 
-        <form role="search">
+        <form role="search" onSubmit={handleSearch}>
           <div>
             <svg
               width="24"
@@ -95,3 +108,5 @@ export function HomePage() {
     </main>
   )
 }
+
+export default Home;
