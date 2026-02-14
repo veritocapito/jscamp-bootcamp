@@ -23,7 +23,8 @@ function Search() {
       (filters.experienceLevel === '' || job.data.nivel === filters.experienceLevel);
   });
   
-  const jobsWithTextFilter = textToFilter === ''
+  // agregamos un .trim() para eliminar espacios en blanco
+  const jobsWithTextFilter = textToFilter.trim() === ''
   ? jobsFilteredByFilters
   : jobsFilteredByFilters.filter((job) =>  {
     return job.titulo.toLowerCase().includes(textToFilter.toLowerCase()) ||
@@ -40,7 +41,7 @@ function Search() {
   };
 
   const handleTextChange = (newTextToFilter) => {
-    setTextToFilter(newTextToFilter);
+    setTextToFilter(newTextToFilter.trim());
     console.log('App text to filter:', newTextToFilter);
   };
   
