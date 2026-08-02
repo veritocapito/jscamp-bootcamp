@@ -1,55 +1,67 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router'
 
 import { Pagination } from '../components/Pagination.jsx'
 import { SearchFormSection } from '../components/SearchFormSection.jsx'
 import { JobListings } from '../components/JobListings.jsx'
-import { useRouter } from '../hooks/useRouter.jsx'
 
 const RESULTS_PER_PAGE = 4
 
 const useFilters = () => {
-  const [filters, setFilters] = useState(() => {
-    const params = new URLSearchParams(window.location.search)
-    return {
-      technology: params.get('technology') || '',
-      location: params.get('type') || '',
-      experienceLevel: params.get('level') || ''
-    }
-  })
-  const [textToFilter, setTextToFilter] = useState(() => {
-    const params = new URLSearchParams(window.location.search)
-    return params.get('text') || ''
-  })
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const [filters, setFilters] = useState(() => ({
+    technology: searchParams.get('technology') ?? '',
+    location: searchParams.get('type') ?? '',
+    experienceLevel: searchParams.get('level') ?? ''
+  }))
+
+  const [textToFilter, setTextToFilter] = useState(() => searchParams.get('text') ?? '')
+
   const [currentPage, setCurrentPage] = useState(() => {
-    const params = new URLSearchParams(window.location.search)
-    const page = Number(params.get('page'))
-    return Number.isNaN(page) ? page : 1
+    return Number(searchParams.get('page')) || 1
   })
 
   const [jobs, setJobs] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
 
-  const { navigateTo } = useRouter()
+  const updateFiltersInURL = ({ text, technology, location, experienceLevel, page }) => {
+    setSearchParams((prevParams) => {
+      const params = new URLSearchParams(prevParams)
+
+      if (text) params.set('text', text)
+      else params.delete('text')
+      if (technology) params.set('technology', technology)
+      else params.delete('technology')
+      if (location) params.set('type', location)
+      else params.delete('type')
+      if (experienceLevel) params.set('level', experienceLevel)
+      else params.delete('level')
+      if (page > 1) params.set('page', page)
+      else params.delete('page')
+
+      return params
+    })
+  }
 
   useEffect(() => {
-    async function fetchJobs() {
+    async function fetchJobs () {
       try {
         setLoading(true)
 
         const params = new URLSearchParams()
-        if (textToFilter) params.append('text', textToFilter)
-        if (filters.technology) params.append('technology', filters.technology)
-        if (filters.location) params.append('type', filters.location)
-        if (filters.experienceLevel) params.append('level', filters.experienceLevel)
+
+        if (textToFilter) params.set('text', textToFilter)
+        if (filters.technology) params.set('technology', filters.technology)
+        if (filters.location) params.set('type', filters.location)
+        if (filters.experienceLevel) params.set('level', filters.experienceLevel)
 
         const offset = (currentPage - 1) * RESULTS_PER_PAGE
-        params.append('limit', RESULTS_PER_PAGE)
-        params.append('offset', offset)
+        params.set('limit', RESULTS_PER_PAGE)
+        params.set('offset', offset)
 
-        const queryParams = params.toString()
-      
-        const response = await fetch(`https://jscamp-api.vercel.app/api/jobs?${queryParams}`)
+        const response = await fetch(`https://jscamp-api.vercel.app/api/jobs?${params}`)
         const json = await response.json()
 
         setJobs(json.data)
@@ -64,37 +76,23 @@ const useFilters = () => {
     fetchJobs()
   }, [filters, currentPage, textToFilter])
 
-  useEffect(() => {
-    const params = new URLSearchParams()
-
-    if (textToFilter) params.append('text', textToFilter)
-    if (filters.technology) params.append('technology', filters.technology)
-    if (filters.location) params.append('type', filters.location)
-    if (filters.experienceLevel) params.append('level', filters.experienceLevel)
-
-    if (currentPage > 1) params.append('page', currentPage)
-
-    const newUrl = params.toString()
-      ? `${window.location.pathname}?${params.toString()}`
-      : window.location.pathname
-
-    navigateTo(newUrl)
-  }, [filters, currentPage, textToFilter, navigateTo])
-
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE)
+
+  const handleSearch = (newFilters) => {
+    setFilters(newFilters)
+    setCurrentPage(1)
+    updateFiltersInURL({ ...newFilters, text: textToFilter, page: 1 })
+  }
+
+  const handleTextFilter = (newText) => {
+    setTextToFilter(newText)
+    setCurrentPage(1)
+    updateFiltersInURL({ ...filters, text: newText, page: 1 })
+  }
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
-  }
-
-  const handleSearch = (filters) => {
-    setFilters(filters)
-    setCurrentPage(1)
-  }
-
-  const handleTextFilter = (newTextToFilter) => {
-    setTextToFilter(newTextToFilter)
-    setCurrentPage(1)
+    updateFiltersInURL({ ...filters, text: textToFilter, page })
   }
 
   return {
@@ -104,13 +102,14 @@ const useFilters = () => {
     totalPages,
     currentPage,
     textToFilter,
+    filters,
     handlePageChange,
     handleSearch,
     handleTextFilter
   }
 }
 
-export function SearchPage() {
+export function SearchPage () {
   const {
     jobs,
     total,
@@ -118,13 +117,14 @@ export function SearchPage() {
     totalPages,
     currentPage,
     textToFilter,
+    filters,
     handlePageChange,
     handleSearch,
     handleTextFilter
   } = useFilters()
 
   const title = loading
-    ? `Cargando... - DevJobs`
+    ? 'Cargando... - DevJobs'
     : `Resultados: ${total}, Página ${currentPage} - DevJobs`
 
   return (
@@ -134,6 +134,7 @@ export function SearchPage() {
 
       <SearchFormSection
         initialText={textToFilter}
+        initialFilters={filters}
         onSearch={handleSearch}
         onTextFilter={handleTextFilter}
       />
@@ -141,9 +142,8 @@ export function SearchPage() {
       <section>
         <h2 style={{ textAlign: 'center' }}>Resultados de búsqueda</h2>
 
-        {
-          loading ? <p>Cargando empleos...</p> : <JobListings jobs={jobs} />
-        }
+        {loading ? <p>Cargando empleos...</p> : <JobListings jobs={jobs} />}
+
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </section>
     </main>
