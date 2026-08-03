@@ -4,7 +4,7 @@ import { JobSection } from "../components/JobSection.jsx";
 import { Link } from "../components/Link.jsx";
 import styles from "./Detail.module.css";
 
-export function JobDetail() {
+export default function JobDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
 
