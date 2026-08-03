@@ -27,9 +27,12 @@ export function JobCard({ job }) {
         </small>
         <p>{job.descripcion}</p>
       </div>
-      <button className={buttonClasses} onClick={handleApplyClick}>
-        {buttonText}
-      </button>
+      <div className="button-container">
+        <button className={buttonClasses} onClick={handleApplyClick}>
+          {buttonText}
+        </button>
+        <button>Agregar a favoritos</button>
+      </div>
     </article>
   )
 }

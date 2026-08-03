@@ -123,6 +123,12 @@ nav {
       outline: none;
     }
   }
+  .nav-link-active{
+    color: var(--primary-light);
+    pointer-events: none;
+    opacity: 0.5;
+    user-select: none;
+  }
 }
 
 /* Botones del Header */
@@ -440,4 +446,10 @@ article {
     background: #4caf50;
     pointer-events: none;
   }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
