@@ -1,17 +1,17 @@
 import { readdir, stat } from 'node:fs/promises'
 import { join } from 'node:path'
 
-const args = process.argv.slice(2)
+const args = new Set(process.argv.slice(2))
 
 // El primer argumento que no sea un flag es la carpeta
-const folder = args.find((arg) => !arg.startsWith('--')) ?? '.'
+const folder = process.argv.slice(2).find((arg) => !arg.startsWith('--')) ?? '.'
 
-const orderAsc = args.includes('--asc')
-const orderDesc = args.includes('--desc')
-const onlyFiles = args.includes('--files')
-const onlyFolders = args.includes('--folders')
+const orderAsc = args.has('--asc')
+const orderDesc = args.has('--desc')
+const onlyFiles = args.has('--files')
+const onlyFolders = args.has('--folders')
 
-function formatSize (bytes) {
+function formatSize(bytes) {
   if (bytes === 0) return '0 B'
   const k = 1024
   const sizes = ['B', 'KB', 'MB', 'GB']
@@ -20,12 +20,10 @@ function formatSize (bytes) {
 }
 
 // Comprobar permisos de lectura al inicio
-if (!process.permission) {
-  console.error('El modelo de permisos no está activado.')
-}
-
-if (!process.permission.has('fs.read', folder)) {
-  console.error(`No tienes permisos de lectura sobre: ${folder}`)
+if(!process.permission?.has('fs.read', folder)) {
+  console.error(`No tienes permisos de lectura sobre: ${folder} Para acceder a ${folder}, debes ingresar:
+  node --permission --allow-fs-read=${folder} cli.js ${folder}`)
+  process.exit(1)
 }
 
 // Leer el directorio
@@ -34,6 +32,7 @@ try {
   names = await readdir(folder)
 } catch {
   console.error(`No se pudo leer el directorio: ${folder}`)
+  process.exit(1)
 }
 
 // Obtener info de cada archivo/carpeta
@@ -60,5 +59,5 @@ if (orderDesc) items.sort((a, b) => b.name.localeCompare(a.name))
 // Mostrar el resultado
 items.forEach(({ name, isDirectory, size }) => {
   const icon = isDirectory ? '📁' : '📄'
-  console.log(`${icon} ${name.padEnd(25)} ${size.padStart(10)}`)
+  console.log(`${icon} ${name.padEnd(45)} ${size.padStart(10)}`)
 })
