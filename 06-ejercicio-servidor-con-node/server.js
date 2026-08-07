@@ -1,5 +1,5 @@
-import { createServer } from 'node:http'
 import { randomUUID } from 'node:crypto'
+import { createServer } from 'node:http'
 import { json } from 'node:stream/consumers'
 
 process.loadEnvFile()
@@ -74,10 +74,15 @@ const server = createServer(async (req, res) => {
   if (method === 'GET') {
     if (pathname === '/users') {
 
-      if (
-        Number.isNaN(Number(searchParams.get('limit') || 0)) ||
-        Number.isNaN(Number(searchParams.get('offset') || 0))
-      ) {
+      /* Este if deja pasar algunos valores como "10.4", que limit o offset sea un string vacío, que podamos poner números negativos, etc. Te dejo una alternativa un poco más robusta */
+      const limit = Number(searchParams.get('limit') ?? 0)
+      const offset = Number(searchParams.get('offset') ?? 0)
+
+      // isIntegrer ya filtra si son decimales, si son NaN o Infinity.
+      const isValid = (num) => Number.isInteger(num) && num >= 0
+
+      /* Queda más claro, el `if` es declarativo y si queremos ver el funcionamiento del handler vamos a isValid */
+      if (!isValid(limit) || !isValid(offset)) {
         return sendJson(res, 400, { error: 'Invalid limit or offset' })
       }
 
@@ -92,7 +97,8 @@ const server = createServer(async (req, res) => {
 
       if (searchParams.has('minAge')) {
         const minAge = Number(searchParams.get('minAge'))
-        if (Number.isNaN(minAge)) {
+        // Mismo sistema, podemos aplicar isValid
+        if (isValid(minAge)) {
           return sendJson(res, 400, { error: 'Invalid minAge' })
         }
         resultUsers = resultUsers.filter(user => user.age >= minAge)
@@ -100,7 +106,7 @@ const server = createServer(async (req, res) => {
 
       if (searchParams.has('maxAge')) {
         const maxAge = Number(searchParams.get('maxAge'))
-        if (Number.isNaN(maxAge)) {
+        if (isValid(maxAge)) {
           return sendJson(res, 400, { error: 'Invalid maxAge' })
         }
         resultUsers = resultUsers.filter(user => user.age <= maxAge)
