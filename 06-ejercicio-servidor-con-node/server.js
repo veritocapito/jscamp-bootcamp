@@ -74,10 +74,12 @@ const server = createServer(async (req, res) => {
   if (method === 'GET') {
     if (pathname === '/users') {
 
-      if (
-        Number.isNaN(Number(searchParams.get('limit') || 0)) ||
-        Number.isNaN(Number(searchParams.get('offset') || 0))
-      ) {
+      const limit = Number(searchParams.get('limit') ?? 0)
+      const offset = Number(searchParams.get('offset') ?? 0)
+
+      const isValid = (num) => Number.isInteger(num) && num >= 0
+
+      if (!isValid(limit) || !isValid(offset)) {
         return sendJson(res, 400, { error: 'Invalid limit or offset' })
       }
 
@@ -92,7 +94,7 @@ const server = createServer(async (req, res) => {
 
       if (searchParams.has('minAge')) {
         const minAge = Number(searchParams.get('minAge'))
-        if (Number.isNaN(minAge)) {
+        if (isValid(minAge)) {
           return sendJson(res, 400, { error: 'Invalid minAge' })
         }
         resultUsers = resultUsers.filter(user => user.age >= minAge)
@@ -100,14 +102,11 @@ const server = createServer(async (req, res) => {
 
       if (searchParams.has('maxAge')) {
         const maxAge = Number(searchParams.get('maxAge'))
-        if (Number.isNaN(maxAge)) {
+        if (isValid(maxAge)) {
           return sendJson(res, 400, { error: 'Invalid maxAge' })
         }
         resultUsers = resultUsers.filter(user => user.age <= maxAge)
       }
-
-      const limit = Number(searchParams.get('limit')) || resultUsers.length
-      const offset = Number(searchParams.get('offset')) || 0
 
       const paginatedUsers = resultUsers.slice(offset, offset + limit)
       return sendJson(res, 200, paginatedUsers)
