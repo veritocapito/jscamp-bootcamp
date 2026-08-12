@@ -1,4 +1,84 @@
+import { randomUUID } from 'node:crypto'
 import jobs from '../jobs.json' with { type: 'json' }
 
-/* Aquí deberá ir la lógica de tu modelo */
-/* Recuerda que el modelo SOLO debe manejar la lógica de los datos, en este caso nuestro JSON */
+export const getAll = ({ text, title, level, technology, limit, offset }) => {
+  let result = jobs
+
+  if (title) {
+    const search = title.toLowerCase()
+    result = result.filter((job) => job.titulo.toLowerCase().includes(search))
+  }
+
+  if (text) {
+    const search = text.toLowerCase()
+    result = result.filter(
+      (job) =>
+        job.titulo.toLowerCase().includes(search) ||
+        job.descripcion.toLowerCase().includes(search)
+    )
+  }
+
+  if (level) {
+    const search = level.toLowerCase()
+    result = result.filter((job) => job.data?.nivel?.toLowerCase() === search)
+  }
+
+  if (technology) {
+    const search = technology.toLowerCase()
+    result = result.filter((job) =>
+      job.data?.technology?.some((tech) => tech.toLowerCase() === search)
+    )
+  }
+
+  return {
+    data: result.slice(offset, offset + limit),
+    total: result.length,
+  }
+}
+
+export const getById = (id) => {
+  return jobs.find((job) => job.id === id)
+}
+
+export const create = ({ titulo, empresa, ubicacion, descripcion, data, content }) => {
+  const newJob = {
+    id: randomUUID(),
+    titulo,
+    empresa,
+    ubicacion,
+    descripcion,
+    data,
+    content,
+  }
+
+  jobs.push(newJob)
+  return newJob
+}
+
+export const update = (id, { titulo, empresa, ubicacion, descripcion, data, content }) => {
+  const index = jobs.findIndex((job) => job.id === id)
+  if (index === -1) return null
+
+  const updatedJob = { id, titulo, empresa, ubicacion, descripcion, data, content }
+
+  jobs[index] = updatedJob
+  return updatedJob
+}
+
+export const partialUpdate = (id, fields) => {
+  const index = jobs.findIndex((job) => job.id === id)
+  if (index === -1) return null
+
+  const updatedJob = { ...jobs[index], ...fields, id }
+
+  jobs[index] = updatedJob
+  return updatedJob
+}
+
+export const remove = (id) => {
+  const index = jobs.findIndex((job) => job.id === id)
+  if (index === -1) return null
+
+  const [deletedJob] = jobs.splice(index, 1)
+  return deletedJob
+}
