@@ -1,20 +1,25 @@
-import * as JobModel from '../models/jobs.js'
 import { DEFAULTS } from '../config.js'
+import * as JobModel from '../models/jobs.js'
 
 export class JobController {
   static async getAll(req, res) {
     const { text, title, level, technology } = req.query
 
+    // Podemos agregar mejores validaciones para el limit y offset
     const limit = Number(req.query.limit) || DEFAULTS.LIMIT_PAGINATION
     const offset = Number(req.query.offset) || DEFAULTS.LIMIT_OFFSET
+
+    // Con esto evaluamos si el valor es diferente a NaN, Infinity o -Infinity. Además verificamos que sea positivo y un número entero
+    const normalizedLimit = Number.isInteger(limit) && limit > 0 ? limit : DEFAULTS.LIMIT_PAGINATION
+    const normalizedOffset = Number.isInteger(offset) && offset >= 0 ? offset : DEFAULTS.LIMIT_OFFSET
 
     const { data, total } = await JobModel.getAll({
       text,
       title,
       level,
       technology,
-      limit,
-      offset,
+      limit: normalizedLimit,
+      offset: normalizedOffset,
     })
 
     return res.json({ data, total, limit, offset })

@@ -5,12 +5,12 @@ export const getAll = ({ text, title, level, technology, limit, offset }) => {
   let result = jobs
 
   if (title) {
-    const search = title.toLowerCase()
+    const search = title.toLowerCase().trim() // Para evitar resultados no encontrados por espacios al inicio/final
     result = result.filter((job) => job.titulo.toLowerCase().includes(search))
   }
 
   if (text) {
-    const search = text.toLowerCase()
+    const search = text.toLowerCase() // Podemos aplicar lo mismo que en title
     result = result.filter(
       (job) =>
         job.titulo.toLowerCase().includes(search) ||
@@ -59,7 +59,7 @@ export const update = (id, { titulo, empresa, ubicacion, descripcion, data, cont
   const index = jobs.findIndex((job) => job.id === id)
   if (index === -1) return null
 
-  const updatedJob = { id, titulo, empresa, ubicacion, descripcion, data, content }
+  const updatedJob = { titulo, empresa, ubicacion, descripcion, data, content } // El id nunca se debe modificar.
 
   jobs[index] = updatedJob
   return updatedJob
