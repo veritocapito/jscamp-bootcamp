@@ -8,13 +8,16 @@ export class JobController {
     const limit = Number(req.query.limit) || DEFAULTS.LIMIT_PAGINATION
     const offset = Number(req.query.offset) || DEFAULTS.LIMIT_OFFSET
 
+    const normalizedLimit = Number.isInteger(limit) && limit > 0 ? limit : DEFAULTS.LIMIT_PAGINATION
+    const normalizedOffset = Number.isInteger(offset) && offset >= 0 ? offset : DEFAULTS.LIMIT_OFFSET
+
     const { data, total } = await JobModel.getAll({
       text,
       title,
       level,
       technology,
-      limit,
-      offset,
+      limit: normalizedLimit,
+      offset: normalizedOffset,
     })
 
     return res.json({ data, total, limit, offset })
