@@ -18,6 +18,75 @@ const BASE_URL = `http://localhost:${PORT}`
 
 const INVALID_ID = '00000000-0000-0000-0000-000000000000'
 
+function buildUrl(path = '/jobs') {
+    const normalizedPath = path.startsWith('/')
+        ? path
+        : `/${path}`
+
+    return `${BASE_URL}${normalizedPath}`
+}
+
+// Esto es opcional, lo hacemos para seguir con la dinámica de abstraes responsabilidades, y no saber como se hacen dentro de cada método. Pero tranquilamente lo podemos usar como `assert.strictEqual(response.status, expectedStatus)` en cada handler
+function assertExpectedStatus(response, expectedStatus) {
+    assert.strictEqual(response.status, expectedStatus)
+}
+
+// Las peticiones y el verificar el status se repite mucho, podemos simplificarlo en funciones
+async function getAndAssertJson(path = '/jobs', expectedStatus = 200) {
+    const response = await fetch(buildUrl(path))
+
+    assertExpectedStatus(response, expectedStatus)
+
+    return response.json()
+}
+
+async function postAndAssertJson(path = '/jobs', expectedStatus = 201, body) {
+    const response = await fetch(buildUrl(path), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+
+    assertExpectedStatus(response, expectedStatus)
+
+    return response.json()
+}
+
+async function putAndAssertStatus(path, expectedStatus = 204, body) {
+    const response = await fetch(buildUrl(path), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+
+    assertExpectedStatus(response, expectedStatus)
+}
+
+async function patchAndAssertStatus(path, expectedStatus = 204, body) {
+    const response = await fetch(buildUrl(path), {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+
+    assertExpectedStatus(response, expectedStatus)
+}
+
+async function deleteAndAssertStatus(path, expectedStatus = 204) {
+    const response = await fetch(buildUrl(path), {
+        method: 'DELETE'
+    })
+
+    assertExpectedStatus(response, expectedStatus)
+}
+
+
 before(async () => {
     return new Promise((resolve, reject) => {
         server = app.listen(PORT, () => resolve())
@@ -37,18 +106,12 @@ after(async () => {
 
 describe('GET /jobs', () => {
     test('Debe devolver 200 y un array de trabajos', async () => {
-        const response = await fetch(`${BASE_URL}/jobs`)
-        assert.strictEqual(response.status, 200)
-
-        const json = await response.json()
+        const json = await getAndAssertJson('/jobs')
         assert.ok(Array.isArray(json.data), 'La respuesta debe ser un array')
     })
 
     test('Debe filtrar trabajos por tecnología', async () => {
-        const response = await fetch(`${BASE_URL}/jobs?technology=react`)
-        assert.strictEqual(response.status, 200)
-
-        const json = await response.json()
+        const json = await getAndAssertJson('/jobs?technology=react')
         assert.ok(
             json.data.every((job) => job.data.technology.includes('react')),
             'La respuesta debe filtrar trabajos por tecnología'
@@ -56,19 +119,14 @@ describe('GET /jobs', () => {
     })
 
     test('Debe respetar el límite de resultados', async () => {
-        const response = await fetch(`${BASE_URL}/jobs?limit=2`)
-        assert.strictEqual(response.status, 200)
+        const json = await getAndAssertJson('/jobs?limit=2')
 
-        const json = await response.json()
         assert.strictEqual(json.limit, 2)
         assert.strictEqual(json.data.length, 2)
     })
 
     test('Debe aplicar offset correctamente', async () => {
-        const response = await fetch(`${BASE_URL}/jobs?offset=1`)
-        assert.strictEqual(response.status, 200)
-
-        const json = await response.json()
+        const json = await getAndAssertJson('/jobs?offset=1')
         assert.strictEqual(json.data[0].id, 'd35b2c89-5d60-4f26-b19a-6cfb2f1a0f57')
     })
 })
@@ -84,18 +142,8 @@ describe('POST /jobs', () => {
                 technology: ['react', 'javascript']
             }
         }
+        const json = await postAndAssertJson('/jobs', 201, newJob)
 
-        const response = await fetch(`${BASE_URL}/jobs`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newJob)
-        })
-
-        assert.strictEqual(response.status, 201)
-
-        const json = await response.json()
         assert.ok(json.id, 'El job devuelto debe tener un ID generado')
         assert.strictEqual(json.titulo, newJob.titulo)
         assert.strictEqual(json.descripcion, newJob.descripcion)
@@ -114,7 +162,6 @@ describe('POST /jobs', () => {
             ubicacion: 'Remoto',
             descripcion: 'Descripción válida'
         }
-
         const invalidJobs = [
             { ...baseJob, titulo: 'ab' },
             { ...baseJob, titulo: 'a'.repeat(101) },
@@ -123,14 +170,7 @@ describe('POST /jobs', () => {
         ]
 
         for (const job of invalidJobs) {
-            const response = await fetch(`${BASE_URL}/jobs`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(job)
-            })
-            assert.strictEqual(response.status, 400)
+            await postAndAssertJson('/jobs', 400, job)
         }
     })
 
@@ -141,17 +181,7 @@ describe('POST /jobs', () => {
             ubicacion: 'Remoto'
         }
 
-        const response = await fetch(`${BASE_URL}/jobs`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(jobWithoutDescription)
-        })
-
-        assert.strictEqual(response.status, 201)
-
-        const json = await response.json()
+        const json = await postAndAssertJson('/jobs', 201, jobWithoutDescription)
         assert.ok(json.id, 'El job devuelto debe tener un ID generado')
         assert.strictEqual(json.titulo, jobWithoutDescription.titulo)
         assert.strictEqual(json.descripcion, undefined)
@@ -162,18 +192,12 @@ describe('GET /jobs/:id', () => {
     const EXISTING_ID = 'd35b2c89-5d60-4f26-b19a-6cfb2f1a0f57'
 
     test('Debe devolver el trabajo con el ID especificado', async () => {
-        const response = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`)
-        assert.strictEqual(response.status, 200)
-
-        const json = await response.json()
+        const json = await getAndAssertJson(`/jobs/${EXISTING_ID}`)
         assert.strictEqual(json.id, EXISTING_ID)
     })
 
     test('Debe devolver 404 cuando el ID no existe', async () => {
-        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`)
-        assert.strictEqual(response.status, 404)
-
-        const json = await response.json()
+        const json = await getAndAssertJson(`/jobs/${INVALID_ID}`, 404)
         assert.ok(json.error, 'La respuesta debe contener un campo error')
     })
 })
@@ -194,20 +218,9 @@ describe('PUT /jobs/:id', () => {
     }
 
     test('Debe recibir 204 y actualizar el trabajo completo', async () => {
-        const response = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedJob)
-        })
+        await putAndAssertStatus(`/jobs/${EXISTING_ID}`, 204, updatedJob)
 
-        assert.strictEqual(response.status, 204)
-
-        const getResponse = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`)
-        assert.strictEqual(getResponse.status, 200)
-
-        const json = await getResponse.json()
+        const json = await getAndAssertJson(`/jobs/${EXISTING_ID}`)
         assert.strictEqual(json.id, EXISTING_ID)
         assert.strictEqual(json.titulo, updatedJob.titulo)
         assert.strictEqual(json.ubicacion, updatedJob.ubicacion)
@@ -223,15 +236,7 @@ describe('PUT /jobs/:id', () => {
     })
 
     test('Debe devolver 404 cuando el ID no existe', async () => {
-        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updatedJob)
-        })
-
-        assert.strictEqual(response.status, 404)
+        await putAndAssertStatus(`/jobs/${INVALID_ID}`, 404, updatedJob)
     })
 })
 
@@ -239,31 +244,18 @@ describe('PATCH /jobs/:id', () => {
     const EXISTING_ID = 'f62d8a34-923a-4ac2-9b0b-14e0ac2f5405'
 
     test('Debe recibir 204 y actualizar solo los campos enviados', async () => {
-        const originalResponse = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`)
-        const originalJob = await originalResponse.json()
+        const originalJob = await getAndAssertJson(`/jobs/${EXISTING_ID}`)
 
         const partialJob = {
             titulo: 'Ingeniero de DevOps Senior',
             ubicacion: 'Barcelona'
         }
 
-        const response = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(partialJob)
-        })
+        await patchAndAssertStatus(`/jobs/${EXISTING_ID}`, 204, partialJob)
 
-        assert.strictEqual(response.status, 204)
-
-        const getResponse = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`)
-        assert.strictEqual(getResponse.status, 200)
-
-        const json = await getResponse.json()
+        const json = await getAndAssertJson(`/jobs/${EXISTING_ID}`)
         assert.strictEqual(json.titulo, partialJob.titulo)
         assert.strictEqual(json.ubicacion, partialJob.ubicacion)
-
         assert.strictEqual(json.empresa, originalJob.empresa, 'empresa no debe cambiar')
         assert.strictEqual(json.descripcion, originalJob.descripcion, 'descripcion no debe cambiar')
         assert.strictEqual(json.data.modalidad, originalJob.data.modalidad, 'modalidad no debe cambiar')
@@ -273,18 +265,11 @@ describe('PATCH /jobs/:id', () => {
             originalJob.data.technology.length,
             'technology no debe cambiar'
         )
+
     })
 
     test('Debe devolver 404 cuando el ID no existe', async () => {
-        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ titulo: 'Título nuevo' })
-        })
-
-        assert.strictEqual(response.status, 404)
+        await patchAndAssertStatus(`/jobs/${INVALID_ID}`, 404, { titulo: 'Título nuevo' })
     })
 })
 
@@ -292,21 +277,12 @@ describe('DELETE /jobs/:id', () => {
     const EXISTING_ID = 'a9f31a8e-ec38-4fd3-9114-88cc6d37a92b'
 
     test('Debe recibir 204 y eliminar el trabajo', async () => {
-        const response = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`, {
-            method: 'DELETE'
-        })
+        await deleteAndAssertStatus(`/jobs/${EXISTING_ID}`)
 
-        assert.strictEqual(response.status, 204)
-
-        const getResponse = await fetch(`${BASE_URL}/jobs/${EXISTING_ID}`)
-        assert.strictEqual(getResponse.status, 404)
+        await getAndAssertJson(`/jobs/${EXISTING_ID}`, 404)
     })
 
     test('Debe devolver 404 cuando el ID no existe', async () => {
-        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`, {
-            method: 'DELETE'
-        })
-
-        assert.strictEqual(response.status, 404)
+        await deleteAndAssertStatus(`/jobs/${INVALID_ID}`, 404)
     })
 })
