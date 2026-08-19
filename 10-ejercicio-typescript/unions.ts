@@ -1,17 +1,16 @@
-/* Aquí deberás tipar las funciones con los tipos ya creados. Teniendo en cuenta que el tipo SearchResult es un union type que puede ser:
-
-- { success: true; jobs: Job[]; count: number }
-- { success: false; error: string }
+/* Aquí deberás tipar las funciones con los tipos ya creados. 
 
 Tendrás que tipar la función safeSearch y displaySearchResults, verificando que la lógica de la función sea correcta o hay algún error.
 */
-
+import type { Job } from './objects.ts'
 import { searchJobs } from './functions.ts'
 
-export type SearchResult = any
+export type SearchResult = 
+  | { success: true; jobs: Job[]; count: number }
+  | { success: false; error: string }
 
 // Función que devuelve SearchResult
-export function safeSearch(jobs: any[], searchTerm: any): SearchResult {
+export function safeSearch(jobs: Job[], searchTerm: string): SearchResult {
   if (!searchTerm || searchTerm.trim().length === 0) {
     return {
       success: false,
@@ -30,9 +29,9 @@ export function safeSearch(jobs: any[], searchTerm: any): SearchResult {
 
 // Función para mostrar resultados usando type narrowing
 export function displaySearchResults(result: SearchResult): void {
-  if (result.succes) {
+  if (result.success) {
     console.log(`Encontrados ${result.count} empleos:`)
-    result.jobs.forEach((job: any) => {
+    result.jobs.forEach((job) => {
       console.log(`- ${job.title} en ${job.company}`)
     })
   } else {

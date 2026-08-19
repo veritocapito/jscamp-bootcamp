@@ -1,5 +1,6 @@
 /* Aquí deberás tipar los parámetros y el valor de retorno de las funciones, teniendo en cuenta que existen parámetros opcionales y valores por defecto */
-
+import type { Job } from './objects.ts'
+import type { ExperienceLevel, Technology, WorkMode } from './types.ts'
 import {
   searchJobs,
   filterByExperience,
@@ -8,7 +9,7 @@ import {
 } from './functions.ts'
 
 // Función de búsqueda avanzada con opcionales
-export function advancedSearch(jobs: any[], options: any): any[] {
+export function advancedSearch(jobs: Job[], options: { text?: string; level?: ExperienceLevel; technology?: Technology; minSalary?: number; workMode?: WorkMode }): Job[] {
   let results = jobs
 
   if (options.text) {
@@ -35,7 +36,7 @@ export function advancedSearch(jobs: any[], options: any): any[] {
 }
 
 // Función con valores por defecto
-export function getRecentJobs(jobs: any[], days: any): any[] {
+export function getRecentJobs(jobs: Job[], days: number): Job[] {
   const cutoffDate = new Date()
   cutoffDate.setDate(cutoffDate.getDate() - days)
 
