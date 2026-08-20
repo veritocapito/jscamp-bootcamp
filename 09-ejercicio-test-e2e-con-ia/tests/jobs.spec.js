@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test'
 
 const BASE_URL = 'http://localhost:5173'
-const JOB_CARD = '.job-listing-card'
+
+const jobCards = (page) => page.getByRole('article')
 
 const SECCIONES_DETALLE = [
   'Descripción del puesto',
@@ -11,10 +12,10 @@ const SECCIONES_DETALLE = [
 ]
 
 async function esperarResultados(page) {
-  const jobCards = page.locator(JOB_CARD)
-  await expect(jobCards.first()).toBeVisible()
+  const cards = jobCards(page)
+  await expect(cards.first()).toBeVisible()
 
-  return jobCards
+  return cards
 }
 
 async function abrirBusqueda(page) {
@@ -32,7 +33,7 @@ async function buscarDesdeLaHome(page, texto) {
 }
 
 async function abrirPrimerEmpleo(page) {
-  const enlace = page.locator(JOB_CARD).first().getByRole('link')
+  const enlace = jobCards(page).first().getByRole('link')
   const titulo = await enlace.innerText()
 
   await enlace.click()
@@ -41,11 +42,11 @@ async function abrirPrimerEmpleo(page) {
   return titulo
 }
 
-async function todasLasCardsTienen(jobCards, atributo, valor) {
-  const total = await jobCards.count()
+async function todasLasCardsTienen(cards, atributo, valor) {
+  const total = await cards.count()
 
   for (let i = 0; i < total; i++) {
-    await expect(jobCards.nth(i)).toHaveAttribute(atributo, valor)
+    await expect(cards.nth(i)).toHaveAttribute(atributo, valor)
   }
 }
 
