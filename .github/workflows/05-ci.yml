@@ -98,3 +98,33 @@ jobs:
       - name: Build del backend
         working-directory: 12-ejercicio-cicd
         run: pnpm build:backend
+
+  # ---------------------------------------------------------------
+  # Sin "needs": es independiente y no bloquea al resto del pipeline.
+  # ---------------------------------------------------------------
+
+  frontend-test-matrix:
+    strategy:
+      matrix:
+        os: [ubuntu-24.04, macos-latest, windows-latest]
+        node: ['22', '24']
+
+    # GitHub genera un job por cada combinación (3 x 2 = 6) y en cada uno
+    # matrix.os y matrix.node valen lo que corresponda a esa combinación.
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node y pnpm
+        uses: ./.github/actions/setup-pnpm-ci-cd
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Tests del frontend
+        # En Windows el shell por defecto es PowerShell. Forzamos bash para
+        # que el comando se comporte igual en los tres sistemas.
+        shell: bash
+        working-directory: 12-ejercicio-cicd
+        run: pnpm test:frontend
