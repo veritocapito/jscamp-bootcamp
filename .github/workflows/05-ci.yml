@@ -1,0 +1,100 @@
+name: 05 - CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # ---------------------------------------------------------------
+  # Estos cuatro jobs no dependen de nadie, así que arrancan a la vez.
+  # ---------------------------------------------------------------
+
+  frontend-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      # El checkout va primero: sin el repo descargado GitHub no puede
+      # encontrar la composite action, que vive dentro del propio repo.
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node y pnpm
+        uses: ./.github/actions/setup-pnpm-ci-cd
+
+      - name: Lint del frontend
+        working-directory: 12-ejercicio-cicd
+        run: pnpm lint:frontend
+
+  frontend-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node y pnpm
+        uses: ./.github/actions/setup-pnpm-ci-cd
+
+      - name: Tests del frontend
+        working-directory: 12-ejercicio-cicd
+        run: pnpm test:frontend
+
+  backend-lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node y pnpm
+        uses: ./.github/actions/setup-pnpm-ci-cd
+
+      - name: Lint del backend
+        working-directory: 12-ejercicio-cicd
+        run: pnpm lint:backend
+
+  backend-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node y pnpm
+        uses: ./.github/actions/setup-pnpm-ci-cd
+
+      - name: Tests del backend
+        working-directory: 12-ejercicio-cicd
+        run: pnpm test:backend
+
+  # ---------------------------------------------------------------
+  # Estos dos esperan: solo construyen si lint y test salieron bien.
+  # ---------------------------------------------------------------
+
+  frontend-build:
+    needs: [frontend-lint, frontend-test]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node y pnpm
+        uses: ./.github/actions/setup-pnpm-ci-cd
+
+      - name: Build del frontend
+        working-directory: 12-ejercicio-cicd
+        run: pnpm build:frontend
+
+  backend-build:
+    needs: [backend-lint, backend-test]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node y pnpm
+        uses: ./.github/actions/setup-pnpm-ci-cd
+
+      - name: Build del backend
+        working-directory: 12-ejercicio-cicd
+        run: pnpm build:backend
