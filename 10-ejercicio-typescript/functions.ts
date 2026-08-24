@@ -3,22 +3,23 @@
 import type { Job } from "./objects.ts"
 import type { ExperienceLevel, Technology } from "./types.ts"
 
-export function filterByExperience(jobs: Job[], level: ExperienceLevel) {
+/* Siempre es bueno devolver el type esperado para cada función. Por más que esto se infiere, es mejor definirlo explícitamente */
+export function filterByExperience(jobs: Job[], level: ExperienceLevel): Job[] {
   return jobs.filter((job) => job.experienceLevel === level)
 }
 
 // Función para filtrar por tecnología
-export function filterByTechnology(jobs: Job[], tech: Technology) {
+export function filterByTechnology(jobs: Job[], tech: Technology): Job[] {
   return jobs.filter((job) => job.technologies.includes(tech))
 }
 
 // Función para filtrar por salario mínimo
-export function filterByMinSalary(jobs: Job[], minSalary: number) {
+export function filterByMinSalary(jobs: Job[], minSalary: number): Job[] {
   return jobs.filter((job) => job.salary !== undefined && job.salary >= minSalary)
 }
 
 // Función para buscar por texto
-export function searchJobs(jobs: Job[], searchTerm: string) {
+export function searchJobs(jobs: Job[], searchTerm: string): Job[] {
   const term = searchTerm.toLowerCase()
   return jobs.filter(
     (job) => job.title.toLowerCase().includes(term) || job.description.toLowerCase().includes(term)
