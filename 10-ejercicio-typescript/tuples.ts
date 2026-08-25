@@ -10,7 +10,7 @@ export type SalaryRange = [min: number, max: number] // [mínimo, máximo]
 
 // Función que devuelve el rango de salarios
 export function getSalaryRange(jobs: Job[]): SalaryRange {
-  const salaries = jobs.map((job) => job.salary).filter((salary) => salary !== undefined)
+  const salaries = jobs.map((job) => job.salary).filter((salary): salary is number => salary !== undefined)
 
   if (salaries.length === 0) {
     return [0, 0]

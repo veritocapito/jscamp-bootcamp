@@ -6,7 +6,7 @@ export function updateJob(job: Job, updates: Partial<Job>): Job {
 }
 
 export type JobSummary = Pick<Job, 'id' | 'title' | 'company' | 'location'>
-export function getJobSummaries(jobs: any[]): JobSummary[] {
+export function getJobSummaries(jobs: Job[]): JobSummary[] {
   return jobs.map((job) => ({
     id: job.id,
     title: job.title,
