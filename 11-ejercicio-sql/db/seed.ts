@@ -37,6 +37,9 @@ db.exec(`
     about            TEXT NOT NULL,
     FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
   );
+
+  CREATE INDEX IF NOT EXISTS idx_technologies_job_id ON job_technologies (job_id);
+  CREATE INDEX IF NOT EXISTS idx_content_job_id ON job_content (job_id);
 `)
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url))
@@ -84,9 +87,11 @@ const seed = db.transaction((rows: JobJSON[]) => {
   }
 })
 
-seed(jobs)
+try {
+  seed(jobs)
 
-console.log('✅ Tablas creadas: jobs, job_technologies, job_content')
-console.log(`✅ ${jobs.length} jobs insertados`)
-
-db.close()
+  console.log('✅ Tablas creadas: jobs, job_technologies, job_content')
+  console.log(`✅ ${jobs.length} jobs insertados`)
+} finally {
+  db.close()
+}
